@@ -48,7 +48,7 @@ Edit `src/main/resources/application.properties` if needed:
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/course_registration
 spring.datasource.username=root
-spring.datasource.password=your_password
+spring.datasource.password=
 ```
 
 ### 3. Build and Run
