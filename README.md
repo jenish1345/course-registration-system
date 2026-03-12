@@ -1,121 +1,103 @@
-# Course Registration System
+Course Registration System
 
-A full-stack web application for managing courses and student enrollments using Java Spring Boot, MySQL, HTML, CSS, and JavaScript.
+This project is a simple course management web application that allows users to create and manage courses and handle student enrollments.
 
-## Features
+I built this application using Spring Boot for the backend, MySQL for the database, and a basic frontend with HTML, CSS, and JavaScript. The goal of the project is to provide a simple interface where courses can be added, viewed, updated, deleted, and where students can register for available courses.
 
-- Add, view, update, and delete courses
-- Search courses by name
-- Register students to courses
-- Visual indication of course capacity
-- Prevent over-enrollment
-- Responsive design
+This project was developed as part of the GUVI Internship Assessment.
 
-## Technologies Used
+Features
 
-### Backend
-- Java 17
-- Spring Boot 3.2.0
-- Spring Data JPA
-- MySQL Database
-- Maven
+The application includes the following functionality:
 
-### Frontend
-- HTML5
-- CSS3
-- JavaScript (ES6+)
-- Fetch API
+Add new courses
 
-## Prerequisites
+View the list of available courses
 
-- Java 17 or higher
-- Maven 3.6+
-- MySQL 8.0+
-- Modern web browser
+Update course details
 
-## Setup Instructions
+Delete existing courses
 
-### 1. Database Setup
+Search for courses by name
 
-```sql
+Register students for a course
+
+Prevent students from registering if the course is full
+
+Show course capacity visually
+
+Responsive layout for easier usage
+
+Technologies Used
+Backend
+
+Java 17
+
+Spring Boot 3.2.0
+
+Spring Data JPA
+
+Maven
+
+Database
+
+MySQL
+
+Frontend
+
+HTML5
+
+CSS3
+
+JavaScript (ES6)
+
+Fetch API
+
+Prerequisites
+
+Before running the project, make sure you have the following installed:
+
+Java 17 or higher
+
+Maven 3.6 or higher
+
+MySQL 8.0 or higher
+
+A modern web browser (Chrome, Firefox, Edge, etc.)
+
+Setup Instructions
+1. Create the Database
+
+Open MySQL and create the database:
+
 CREATE DATABASE course_registration;
-```
+2. Configure the Database Connection
 
-### 2. Configure Database
+Open the file:
 
-Edit `src/main/resources/application.properties` if needed:
+src/main/resources/application.properties
 
-```properties
+Update the database configuration if necessary:
+
 spring.datasource.url=jdbc:mysql://localhost:3306/course_registration
 spring.datasource.username=root
 spring.datasource.password=
-```
 
-### 3. Build and Run
+3. Build and Run the Application
 
-```bash
-# Build the project
+Open a terminal inside the project folder and run the following commands:
+
 mvn clean install
 
-# Run the application
+Then start the application:
+
 mvn spring-boot:run
-```
 
-The application will start on `http://localhost:8080`
+After the application starts, it will run on:
 
-### 4. Access the Application
-
-Open your browser and navigate to:
-```
 http://localhost:8080
-```
+Accessing the Application
 
-## API Endpoints
+Open your browser and go to:
 
-- `POST /api/courses` - Create a new course
-- `GET /api/courses` - Get all courses
-- `GET /api/courses/{id}` - Get course by ID
-- `PUT /api/courses/{id}` - Update course
-- `DELETE /api/courses/{id}` - Delete course
-- `GET /api/courses/search?name={name}` - Search courses
-- `POST /api/courses/{id}/register` - Register student
-
-## Project Structure
-
-```
-course-registration/
-├── src/
-│   └── main/
-│       ├── java/com/course/
-│       │   ├── CourseRegistrationApplication.java
-│       │   ├── controller/
-│       │   │   └── CourseController.java
-│       │   ├── model/
-│       │   │   └── Course.java
-│       │   ├── repository/
-│       │   │   └── CourseRepository.java
-│       │   └── service/
-│       │       └── CourseService.java
-│       └── resources/
-│           ├── static/
-│           │   ├── css/
-│           │   │   └── style.css
-│           │   ├── js/
-│           │   │   └── app.js
-│           │   └── index.html
-│           └── application.properties
-└── pom.xml
-```
-
-## Usage
-
-1. **Add Course**: Fill in the form and click "Add Course"
-2. **View Courses**: All courses are displayed in cards
-3. **Search**: Use the search bar to find courses by name
-4. **Edit Course**: Click "Edit" button on any course card
-5. **Delete Course**: Click "Delete" button (with confirmation)
-6. **Register Student**: Click "Register Student" (disabled when full)
-
-## Author
-
-Created for GUVI Internship Assessment
+http://localhost:8080
