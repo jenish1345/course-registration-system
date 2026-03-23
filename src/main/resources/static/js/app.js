@@ -2,6 +2,7 @@ const API_URL = 'http://localhost:8080/api/courses';
 
 let isEditMode = false;
 let currentCourseId = null;
+let currentView = 'cards';
 
 // DOM Elements
 const courseForm = document.getElementById('courseForm');
@@ -12,6 +13,10 @@ const searchInput = document.getElementById('searchInput');
 const searchBtn = document.getElementById('searchBtn');
 const clearSearchBtn = document.getElementById('clearSearchBtn');
 const coursesList = document.getElementById('coursesList');
+const themeToggle = document.getElementById('themeToggle');
+const viewToggleBtns = document.querySelectorAll('.view-toggle button');
+const tableView = document.getElementById('tableView');
+const tableBody = document.getElementById('tableBody');
 
 // Event Listeners
 courseForm.addEventListener('submit', handleFormSubmit);
@@ -22,8 +27,72 @@ clearSearchBtn.addEventListener('click', () => {
     loadCourses();
 });
 
+themeToggle.addEventListener('click', toggleTheme);
+
+viewToggleBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        currentView = btn.dataset.view;
+        viewToggleBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        if (currentView === 'cards') {
+            coursesList.style.display = 'grid';
+            tableView.classList.remove('active');
+        } else {
+            coursesList.style.display = 'none';
+            tableView.classList.add('active');
+        }
+        loadCourses();
+    });
+});
+
 // Load courses on page load
-document.addEventListener('DOMContentLoaded', loadCourses);
+document.addEventListener('DOMContentLoaded', () => {
+    loadCourses();
+    loadTheme();
+});
+
+// Theme Toggle
+function toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    themeToggle.textContent = isDark ? '☀️' : '🌙';
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}
+
+function loadTheme() {
+    const theme = localStorage.getItem('theme');
+    if (theme === 'dark') {
+        document.body.classList.add('dark-mode');
+        themeToggle.textContent = '☀️';
+    }
+}
+
+// Toast Notifications
+function showToast(message, type = 'success') {
+    const toastContainer = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    const icons = {
+        success: '✅',
+        error: '❌',
+        warning: '⚠️',
+        info: 'ℹ️'
+    };
+    
+    toast.innerHTML = `
+        <span class="toast-icon">${icons[type]}</span>
+        <span class="toast-message">${message}</span>
+    `;
+    
+    toastContainer.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.animation = 'slideIn 0.3s ease reverse';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
 
 // Form Submit Handler
 async function handleFormSubmit(e) {
@@ -37,9 +106,14 @@ async function handleFormSubmit(e) {
     };
     
     if (!courseData.courseName || !courseData.instructorName || !courseData.credits) {
-        alert('Please fill all required fields');
+        showToast('Please fill all required fields', 'error');
         return;
     }
+    
+    const btnText = submitBtn.querySelector('.btn-text') || submitBtn;
+    const originalText = btnText.textContent;
+    btnText.innerHTML = '<span class="loading"></span> Saving...';
+    submitBtn.disabled = true;
     
     try {
         if (isEditMode) {
@@ -50,7 +124,10 @@ async function handleFormSubmit(e) {
         resetForm();
         loadCourses();
     } catch (error) {
-        alert('Error: ' + error.message);
+        showToast('Error: ' + error.message, 'error');
+    } finally {
+        btnText.textContent = originalText;
+        submitBtn.disabled = false;
     }
 }
 
@@ -69,18 +146,38 @@ async function createCourse(courseData) {
         throw new Error(error.error || 'Failed to create course');
     }
     
-    alert('Course created successfully!');
+    showToast('Course created successfully!', 'success');
 }
 
 async function loadCourses() {
     try {
         const response = await fetch(API_URL);
         const courses = await response.json();
-        displayCourses(courses);
+        
+        if (currentView === 'cards') {
+            displayCourses(courses);
+        } else {
+            displayTable(courses);
+        }
+        
+        updateStats(courses);
     } catch (error) {
         console.error('Error loading courses:', error);
         coursesList.innerHTML = '<p>Error loading courses</p>';
+        showToast('Error loading courses', 'error');
     }
+}
+
+function updateStats(courses) {
+    const total = courses.length;
+    const full = courses.filter(c => c.enrolledCount >= c.maximumCapacity).length;
+    const available = total - full;
+    const totalEnrolled = courses.reduce((sum, c) => sum + c.enrolledCount, 0);
+    
+    document.getElementById('totalCourses').textContent = total;
+    document.getElementById('availableCourses').textContent = available;
+    document.getElementById('fullCourses').textContent = full;
+    document.getElementById('totalEnrolled').textContent = totalEnrolled;
 }
 
 async function updateCourse(id, courseData) {
@@ -97,7 +194,7 @@ async function updateCourse(id, courseData) {
         throw new Error(error.error || 'Failed to update course');
     }
     
-    alert('Course updated successfully!');
+    showToast('Course updated successfully!', 'success');
 }
 
 async function deleteCourse(id) {
@@ -115,10 +212,10 @@ async function deleteCourse(id) {
             throw new Error(error.error || 'Failed to delete course');
         }
         
-        alert('Course deleted successfully!');
+        showToast('Course deleted successfully!', 'success');
         loadCourses();
     } catch (error) {
-        alert('Error: ' + error.message);
+        showToast('Error: ' + error.message, 'error');
     }
 }
 
@@ -133,10 +230,10 @@ async function registerStudent(id) {
             throw new Error(error.error || 'Failed to register student');
         }
         
-        alert('Student registered successfully!');
+        showToast('Student registered successfully!', 'success');
         loadCourses();
     } catch (error) {
-        alert('Error: ' + error.message);
+        showToast('Error: ' + error.message, 'error');
     }
 }
 
@@ -151,7 +248,14 @@ async function handleSearch() {
     try {
         const response = await fetch(`${API_URL}/search?name=${encodeURIComponent(searchTerm)}`);
         const courses = await response.json();
-        displayCourses(courses);
+        
+        if (currentView === 'cards') {
+            displayCourses(courses);
+        } else {
+            displayTable(courses);
+        }
+        
+        updateStats(courses);
     } catch (error) {
         console.error('Error searching courses:', error);
     }
@@ -165,6 +269,44 @@ function displayCourses(courses) {
     }
     
     coursesList.innerHTML = courses.map(course => createCourseCard(course)).join('');
+}
+
+function displayTable(courses) {
+    if (courses.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No courses found</td></tr>';
+        return;
+    }
+    
+    tableBody.innerHTML = courses.map(course => {
+        const isFull = course.enrolledCount >= course.maximumCapacity;
+        return `
+            <tr class="${isFull ? 'full' : ''}">
+                <td>${course.courseName}</td>
+                <td>${course.instructorName}</td>
+                <td>${course.credits}</td>
+                <td>${course.enrolledCount} / ${course.maximumCapacity}</td>
+                <td>
+                    <span class="badge ${isFull ? 'badge-full' : 'badge-available'}">
+                        ${isFull ? 'FULL' : 'AVAILABLE'}
+                    </span>
+                </td>
+                <td>
+                    <div class="course-actions">
+                        <button class="btn btn-success" onclick="registerStudent(${course.courseId})" 
+                            ${isFull ? 'disabled' : ''}>
+                            Register
+                        </button>
+                        <button class="btn btn-warning" onclick="editCourse(${course.courseId})">
+                            Edit
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteCourse(${course.courseId})">
+                            Delete
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
 }
 
 function createCourseCard(course) {
@@ -229,12 +371,13 @@ async function editCourse(id) {
         isEditMode = true;
         currentCourseId = id;
         formTitle.textContent = 'Update Course';
-        submitBtn.textContent = 'Update Course';
+        const btnText = submitBtn.querySelector('.btn-text') || submitBtn;
+        btnText.textContent = 'Update Course';
         cancelBtn.style.display = 'inline-block';
         
         window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
-        alert('Error loading course details');
+        showToast('Error loading course details', 'error');
     }
 }
 
@@ -243,6 +386,7 @@ function resetForm() {
     isEditMode = false;
     currentCourseId = null;
     formTitle.textContent = 'Add New Course';
-    submitBtn.textContent = 'Add Course';
+    const btnText = submitBtn.querySelector('.btn-text') || submitBtn;
+    btnText.textContent = 'Add Course';
     cancelBtn.style.display = 'none';
 }
