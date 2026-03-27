@@ -1,13 +1,13 @@
 :root {
-    --primary: #6366f1;
-    --primary-dark: #4f46e5;
-    --secondary: #8b5cf6;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --danger: #ef4444;
-    --dark: #1f2937;
-    --light: #f9fafb;
-    --border: #e5e7eb;
+    --primary: #000000;
+    --primary-dark: #1a1a1a;
+    --secondary: #333333;
+    --success: #4a4a4a;
+    --warning: #666666;
+    --danger: #000000;
+    --dark: #000000;
+    --light: #ffffff;
+    --border: #d1d5db;
     --shadow: rgba(0, 0, 0, 0.1);
 }
 
@@ -19,7 +19,7 @@
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
     min-height: 100vh;
     padding: 20px;
     color: var(--dark);
@@ -27,7 +27,7 @@ body {
 }
 
 body.dark-mode {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
     color: var(--light);
 }
 
@@ -75,14 +75,14 @@ body.dark-mode header {
 }
 
 header h1 {
-    color: var(--primary);
+    color: #000000;
     font-size: 2.5em;
     font-weight: 700;
     margin-bottom: 5px;
 }
 
 body.dark-mode header h1 {
-    color: var(--light);
+    color: #ffffff;
 }
 
 .header-subtitle {
@@ -97,7 +97,7 @@ body.dark-mode header h1 {
 }
 
 .theme-toggle {
-    background: var(--primary);
+    background: #000000;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -108,7 +108,7 @@ body.dark-mode header h1 {
 }
 
 .theme-toggle:hover {
-    background: var(--primary-dark);
+    background: #333333;
     transform: scale(1.05);
 }
 
@@ -135,7 +135,7 @@ body.dark-mode .view-toggle {
 }
 
 .view-toggle button.active {
-    background: var(--primary);
+    background: #000000;
     color: white;
 }
 
@@ -158,7 +158,7 @@ body.dark-mode .form-section {
 }
 
 .form-section h2 {
-    color: var(--primary);
+    color: #000000;
     margin-bottom: 25px;
     font-size: 1.5em;
     font-weight: 600;
@@ -168,7 +168,7 @@ body.dark-mode .form-section {
 }
 
 body.dark-mode .form-section h2 {
-    color: var(--light);
+    color: #ffffff;
 }
 
 .form-section h2::before {
@@ -211,17 +211,17 @@ body.dark-mode .form-group input {
 
 .form-group input:focus {
     outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    border-color: #000000;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
     transform: translateY(-2px);
 }
 
 .form-group input:invalid:not(:placeholder-shown) {
-    border-color: var(--danger);
+    border-color: #000000;
 }
 
 .form-group input:valid:not(:placeholder-shown) {
-    border-color: var(--success);
+    border-color: #4a4a4a;
 }
 
 .button-group {
@@ -261,59 +261,59 @@ body.dark-mode .form-group input {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    background: linear-gradient(135deg, #000000 0%, #333333 100%);
     color: white;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
 .btn-secondary {
-    background: #6c757d;
+    background: #666666;
     color: white;
 }
 
 .btn-secondary:hover {
-    background: #5a6268;
+    background: #4a4a4a;
     transform: translateY(-2px);
 }
 
 .btn-danger {
-    background: var(--danger);
+    background: #000000;
     color: white;
     padding: 8px 16px;
     font-size: 14px;
 }
 
 .btn-danger:hover {
-    background: #dc2626;
+    background: #1a1a1a;
     transform: translateY(-2px);
 }
 
 .btn-success {
-    background: var(--success);
+    background: #4a4a4a;
     color: white;
     padding: 8px 16px;
     font-size: 14px;
 }
 
 .btn-success:hover {
-    background: #059669;
+    background: #333333;
     transform: translateY(-2px);
 }
 
 .btn-warning {
-    background: var(--warning);
+    background: #666666;
     color: white;
     padding: 8px 16px;
     font-size: 14px;
 }
 
 .btn-warning:hover {
-    background: #d97706;
+    background: #4a4a4a;
     transform: translateY(-2px);
 }
 
@@ -348,8 +348,8 @@ body.dark-mode #searchInput {
 
 #searchInput:focus {
     outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    border-color: #000000;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
 }
 
 #searchInput::placeholder {
@@ -395,37 +395,37 @@ body.dark-mode .course-card {
     left: 0;
     width: 100%;
     height: 4px;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    background: linear-gradient(90deg, #000000, #666666);
 }
 
 .course-card:hover {
     box-shadow: 0 10px 40px rgba(0,0,0,0.15);
     transform: translateY(-8px);
-    border-color: var(--primary);
+    border-color: #000000;
 }
 
 .course-card.full {
-    border-color: var(--danger);
-    background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+    border-color: #000000;
+    background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
 }
 
 body.dark-mode .course-card.full {
-    background: rgba(239, 68, 68, 0.1);
+    background: rgba(0, 0, 0, 0.3);
 }
 
 .course-card.full::before {
-    background: var(--danger);
+    background: #000000;
 }
 
 .course-card h3 {
-    color: var(--primary);
+    color: #000000;
     margin-bottom: 15px;
     font-size: 1.4em;
     font-weight: 700;
 }
 
 body.dark-mode .course-card h3 {
-    color: var(--light);
+    color: #ffffff;
 }
 
 .course-info {
@@ -470,16 +470,16 @@ body.dark-mode .course-info strong {
 
 .capacity-fill {
     height: 100%;
-    background: #28a745;
+    background: #4a4a4a;
     transition: width 0.3s;
 }
 
 .capacity-fill.warning {
-    background: #ffc107;
+    background: #666666;
 }
 
 .capacity-fill.full {
-    background: #dc3545;
+    background: #000000;
 }
 
 .course-actions {
@@ -499,12 +499,12 @@ body.dark-mode .course-info strong {
 }
 
 .badge-full {
-    background: #dc3545;
+    background: #000000;
     color: white;
 }
 
 .badge-available {
-    background: #28a745;
+    background: #666666;
     color: white;
 }
 
@@ -542,15 +542,15 @@ body.dark-mode .course-info strong {
 }
 
 .toast.success {
-    border-left-color: var(--success);
+    border-left-color: #4a4a4a;
 }
 
 .toast.error {
-    border-left-color: var(--danger);
+    border-left-color: #000000;
 }
 
 .toast.warning {
-    border-left-color: var(--warning);
+    border-left-color: #666666;
 }
 
 .toast-icon {
@@ -600,7 +600,7 @@ body.dark-mode .course-table {
 }
 
 .course-table thead {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, #000000, #333333);
     color: white;
 }
 
@@ -617,11 +617,11 @@ body.dark-mode .course-table td {
 }
 
 .course-table tbody tr:hover {
-    background: rgba(99, 102, 241, 0.05);
+    background: rgba(0, 0, 0, 0.05);
 }
 
 .course-table tbody tr.full {
-    background: rgba(239, 68, 68, 0.05);
+    background: rgba(0, 0, 0, 0.05);
 }
 
 /* Stats Cards */
@@ -633,7 +633,7 @@ body.dark-mode .course-table td {
 }
 
 .stat-card {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, #000000, #333333);
     color: white;
     padding: 20px;
     border-radius: 12px;
