@@ -21,17 +21,19 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                .requestMatchers("/css/**", "/js/**", "/images/**", "/login.html").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/login")
+                .loginPage("/login.html")
+                .loginProcessingUrl("/login")
                 .permitAll()
-                .defaultSuccessUrl("/", true)
+                .defaultSuccessUrl("/index.html", true)
+                .failureUrl("/login.html?error=true")
             )
             .logout(logout -> logout
                 .permitAll()
-                .logoutSuccessUrl("/login?logout")
+                .logoutSuccessUrl("/login.html?logout=true")
             );
         
         return http.build();
